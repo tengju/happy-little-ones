@@ -17,6 +17,7 @@
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\""
   },
   "dependencies": {
+    "@simplr-wc/router": "^7.0.0-rc19",
     "lit": "^2.0.2"
   },
   "devDependencies": {

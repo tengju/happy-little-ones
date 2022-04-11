@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="Description" content="Put your description here.">
+  <meta name="Description" content="Everything you need for your happy little ones.">
   <base href="/">
 
   <style>
@@ -15,14 +15,23 @@
       font-family: sans-serif;
       background-color: #ededed;
     }
+
+    simplr-router-container[entering-view] {
+      transform: translateX(-100%);
+    }
+
+    simplr-router-container[leaving-view] {
+      transform: translateX(100%);
+    }
   </style>
-  <title>happy-little-ones</title>
+  <title>Happy Little Ones</title>
 </head>
 
 <body>
-  <happy-little-ones></happy-little-ones>
-
-  <script type="module" src="./out-tsc/src/happy-little-ones.js"></script>
+  <page-header></page-header>
+  <simplr-router-outlet></simplr-router-outlet>
+  <page-footer></page-footer>
+  <script type="module" src="./out-tsc/src/app.js"></script>
 </body>
 
 </html>

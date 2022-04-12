@@ -14,7 +14,6 @@ export class PageHeader extends LitElement {
       <header>
         <a href="/">HOME</a>
         <a href="/products">PRODUCTS</a>
-        <a href="/products/2349riejwfodnvkl">SINGLE_ITEM</a>
         <img src="${logo}" alt="Happy Little Ones" />
       </header>
     `;

@@ -15,6 +15,7 @@
     "start:build": "web-dev-server --root-dir dist --app-index index.html --open",
     "analyze": "cem analyze --litelement",
     "start": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\" \"npm run start:server\"",
+    "start:client": "tsc && concurrently -k -r \"tsc --watch --preserveWatchOutput\" \"wds\"",
     "start:server": "node server/index.js"
   },
   "dependencies": {

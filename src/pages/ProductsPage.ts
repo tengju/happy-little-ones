@@ -16,7 +16,8 @@ export class ProductsPage extends LitElement {
     }
   `;
 
-  connectedCallback(): void {
+  constructor() {
+    super();
     this.getData();
   }
 

@@ -22,7 +22,7 @@ export class PageHeader extends LitElement {
       padding: 0 1rem;
     }
 
-    img {
+    .logo {
       height: 4rem;
       width: 4rem;
     }
@@ -62,7 +62,7 @@ export class PageHeader extends LitElement {
   render() {
     return html`
       <header>
-        <img src="${logo}" alt="Happy Little Ones" />
+        <img class="logo" src="${logo}" alt="Happy Little Ones" />
         <span>
           <lion-icon
             icon-id="lion:store:search"

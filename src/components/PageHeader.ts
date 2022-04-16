@@ -17,9 +17,10 @@ export class PageHeader extends LitElement {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background-color: #fafafa;
-      margin-bottom: 1rem;
+      background-color: white;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       padding: 0 1rem;
+      z-index: 2;
     }
 
     .logo {
@@ -45,6 +46,15 @@ export class PageHeader extends LitElement {
     .filter-button {
       width: 100%;
     }
+
+    .header-icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .cursor-pointer {
+      cursor: pointer;
+    }
   `;
 
   #toggleFilterBar() {
@@ -62,16 +72,21 @@ export class PageHeader extends LitElement {
   render() {
     return html`
       <header>
-        <img class="logo" src="${logo}" alt="Happy Little Ones" />
+        <img
+          class="logo cursor-pointer"
+          src="${logo}"
+          alt="Happy Little Ones"
+        />
         <span>
           <lion-icon
             icon-id="lion:store:search"
-            style="width: 2rem; height: 2rem; margin-right: 1rem;"
+            class="header-icon cursor-pointer"
+            style=" margin-right: 1rem;"
             @click="${this.#toggleFilterBar}"
           ></lion-icon>
           <lion-icon
             icon-id="lion:store:basket"
-            style="width: 2rem; height: 2rem;"
+            class="header-icon cursor-pointer"
           ></lion-icon>
         </span>
         <div class="filter-bar ${this.filterBarOpened ? 'active' : ''}">

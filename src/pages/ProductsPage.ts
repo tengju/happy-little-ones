@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { sortByDateFunction } from '../helpers/product.helper.js';
 import { IProduct } from '../interfaces/IProduct.js';
 import '../components/ProductTile.js';
+import { getAllProducts } from '../api/products.api.js';
 
 @customElement('products-page')
 export class ProductsPage extends LitElement {
@@ -11,13 +12,20 @@ export class ProductsPage extends LitElement {
   @property({ type: Boolean }) errored = false;
 
   static styles = css`
+    main {
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      max-width: 800px;
+      padding: 1rem 0;
+    }
     .title-container {
       display: flex;
       justify-content: space-between;
-      padding: 1rem;
       position: sticky;
       top: 0;
       z-index: 1;
+      padding: 0 0.5rem;
       background-color: white;
     }
 
@@ -25,6 +33,7 @@ export class ProductsPage extends LitElement {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-evenly;
+      padding: 0 0.25rem;
       gap: 1rem;
     }
 
@@ -41,10 +50,9 @@ export class ProductsPage extends LitElement {
   async getData() {
     this.errored = false;
     try {
-      const response = await fetch('http://localhost:3000/products');
-      const products = await response.json();
+      const { body }: any = await getAllProducts();
       // in an ideal situation I would sort this in the backend
-      this.products = products.sort(sortByDateFunction);
+      this.products = body.sort(sortByDateFunction);
     } catch (error) {
       this.errored = true;
       this.products = [];
@@ -63,15 +71,17 @@ export class ProductsPage extends LitElement {
 
   render() {
     return html`
-      <div class="title-container">
-        <span>Products</span> <span>${this.products.length} products</span>
-      </div>
-      ${this.getErrorTemplate()} ${this.getNoResultTemplate()}
-      <div class="product-list">
-        ${this.products.map(
-          product => html` <product-tile .product=${product}></product-tile> `
-        )}
-      </div>
+      <main>
+        <div class="title-container">
+          <span>Products</span> <span>${this.products.length} products</span>
+        </div>
+        ${this.getErrorTemplate()} ${this.getNoResultTemplate()}
+        <div class="product-list">
+          ${this.products.map(
+            product => html` <product-tile .product=${product}></product-tile> `
+          )}
+        </div>
+      </main>
     `;
   }
 }

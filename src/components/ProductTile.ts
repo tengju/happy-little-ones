@@ -3,9 +3,10 @@ import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { IProduct } from '../interfaces/IProduct.js';
+import './CustomChip.js';
 
 @customElement('product-tile')
-export class PageFooter extends LitElement {
+export class ProductTile extends LitElement {
   @property({ type: Object }) product: IProduct | undefined;
 
   static styles = css`
@@ -51,16 +52,10 @@ export class PageFooter extends LitElement {
       margin-top: auto;
     }
 
-    .type-chip {
+    custom-chip {
       position: absolute;
-      bottom: 1rem;
-      right: 1rem;
-      background-color: #ff7676;
-      padding: 0.5rem;
-      border-radius: 0.5rem;
-      color: white;
-      text-transform: uppercase;
-      font-size: 0.8rem;
+      bottom: 0.25rem;
+      right: 0.25rem;
     }
 
     .relative {
@@ -79,7 +74,7 @@ export class PageFooter extends LitElement {
 
   goToProductPage() {
     if (this.product?.id) {
-      changeView({ path: `/${this.product?.id}` });
+      changeView({ path: `/products/${this.product?.id}` });
     }
   }
 
@@ -91,7 +86,9 @@ export class PageFooter extends LitElement {
             src="${ifDefined(this.product?.image)}"
             alt="${ifDefined(this.product?.name)}"
           />
-          <span class="type-chip">${this.product?.type}</span>
+          <custom-chip backgroundColor="#ff7676" color="#fff">
+            ${this.product?.type}
+          </custom-chip>
         </div>
         <div class="detail-section">
           <span>${this.product?.name}</span>

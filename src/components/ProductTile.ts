@@ -22,7 +22,6 @@ export class ProductTile extends LitElement {
       padding: 0;
       overflow: hidden;
       box-shadow: rgb(163 163 163 / 25%) 0px 0px 5px;
-
       width: 150px;
     }
 

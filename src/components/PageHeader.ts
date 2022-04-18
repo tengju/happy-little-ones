@@ -14,13 +14,13 @@ export class PageHeader extends LitElement {
   static styles = css`
     header {
       position: sticky;
+      top: 0;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: white;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       padding: 0 1rem;
-      top: 0;
       z-index: 2;
     }
 

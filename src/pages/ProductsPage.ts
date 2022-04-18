@@ -1,8 +1,9 @@
-import { LitElement, html, css } from 'lit';
+import { html, css, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { sortByDateFunction } from '../helpers/product.helper.js';
 import { IProduct } from '../interfaces/IProduct.js';
 import '../components/ProductTile.js';
+import '../layouts/DefaultLayout.js';
 import { getAllProducts } from '../api/products.api.js';
 
 @customElement('products-page')
@@ -25,7 +26,8 @@ export class ProductsPage extends LitElement {
       position: sticky;
       top: 0;
       z-index: 1;
-      padding: 0 0.5rem;
+      padding: 5rem 0.5rem 0.5rem 0.5rem;
+      margin-top: -5rem;
       background-color: white;
     }
 
@@ -71,17 +73,20 @@ export class ProductsPage extends LitElement {
 
   render() {
     return html`
-      <main>
-        <div class="title-container">
-          <span>Products</span> <span>${this.products.length} products</span>
-        </div>
-        ${this.getErrorTemplate()} ${this.getNoResultTemplate()}
-        <div class="product-list">
-          ${this.products.map(
-            product => html` <product-tile .product=${product}></product-tile> `
-          )}
-        </div>
-      </main>
+      <default-layout>
+        <main>
+          <div class="title-container">
+            <span>Products</span> <span>${this.products.length} products</span>
+          </div>
+          ${this.getErrorTemplate()} ${this.getNoResultTemplate()}
+          <div class="product-list">
+            ${this.products.map(
+              product =>
+                html` <product-tile .product=${product}></product-tile> `
+            )}
+          </div>
+        </main>
+      </default-layout>
     `;
   }
 }

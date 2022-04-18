@@ -1,7 +1,6 @@
 import { SimplrRoute, SimplrRouter } from '@simplr-wc/router';
 import './components/IconManager.js';
 import './components/PageHeader.js';
-import './components/PageFooter.js';
 
 export const routes: SimplrRoute[] = [
   {
@@ -10,9 +9,14 @@ export const routes: SimplrRoute[] = [
     import: () => import('./pages/ProductsPage.js'),
   },
   {
-    path: '/:id',
+    path: '/products/:id',
     component: 'single-product-page',
     import: () => import('./pages/SingleProductPage.js'),
+  },
+  {
+    path: 'not-found',
+    component: 'not-found-page',
+    import: () => import('./pages/NotFoundPage.js'),
   },
 ];
 

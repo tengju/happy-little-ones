@@ -13,13 +13,14 @@ export class PageHeader extends LitElement {
 
   static styles = css`
     header {
-      position: relative;
+      position: sticky;
       display: flex;
       align-items: center;
       justify-content: space-between;
       background-color: white;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
       padding: 0 1rem;
+      top: 0;
       z-index: 2;
     }
 
@@ -72,11 +73,13 @@ export class PageHeader extends LitElement {
   render() {
     return html`
       <header>
-        <img
-          class="logo cursor-pointer"
-          src="${logo}"
-          alt="Happy Little Ones"
-        />
+        <a href="/">
+          <img
+            class="logo cursor-pointer"
+            src="${logo}"
+            alt="Happy Little Ones"
+          />
+        </a>
         <span>
           <lion-icon
             icon-id="lion:store:search"

@@ -57,7 +57,9 @@ export class ShoppingCartPage extends StoreElement {
                     <td>
                       <img src="${item.image}" alt="${item.product}"></img>
                     </td>
-                    <td>${item.product}</td>
+                    <td>
+                      ${item.product} ${item.size ? html`(${item.size})` : ''}
+                    </td>
                     <td>${numberToEuro(item.price)}</td>
                     <td>
                       <div class="amount-cell">
@@ -87,7 +89,7 @@ export class ShoppingCartPage extends StoreElement {
                       50
                     )})</td>
                     </td>
-                    <td>${numberToEuro(7.5)}</td>
+                    <td>${numberToEuro(7.95)}</td>
                   </tr>
                 `
                 : ''}
@@ -98,7 +100,7 @@ export class ShoppingCartPage extends StoreElement {
                 <td>
                   ${numberToEuro(
                     this.totalPrice < 50
-                      ? this.totalPrice + 7.5
+                      ? this.totalPrice + 7.95
                       : this.totalPrice
                   )}
                 </td>

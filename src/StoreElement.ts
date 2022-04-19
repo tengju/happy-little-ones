@@ -9,17 +9,14 @@ export class StoreElement extends LitElement {
     this.shoppingCart = JSON.parse(
       localStorage.getItem('shoppingCart') || '{}'
     );
-    this.filters = {
-      brand: '',
-      type: '',
-    };
+    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
   }
 
   @property({ type: String })
   shoppingCart: Record<string, IShoppingItem> = {};
 
   @property({ type: Object })
-  filters = {
+  filters: Record<string, string> = {
     brand: '',
     type: '',
   };
@@ -28,6 +25,16 @@ export class StoreElement extends LitElement {
     if (changedProperties.has('shoppingCart')) {
       localStorage.setItem('shoppingCart', JSON.stringify(this.shoppingCart));
     }
+    if (changedProperties.has('filters')) {
+      localStorage.setItem('filters', JSON.stringify(this.filters));
+    }
+  }
+
+  changeFilter(key: string, value: string) {
+    this.filters = {
+      ...this.filters,
+      [key]: value,
+    };
   }
 
   addProductToCart(product: IProduct | null, size: number | null = null) {

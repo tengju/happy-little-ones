@@ -9,8 +9,24 @@ const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 
+const getProductDateAdded = (product) => {
+  const [day, month, year] = product.DateAdded.split('-');
+  return new Date(Number(year), Number(month), Number(day));
+};
+
+const sortByDateFunction = (a, b) =>
+  getProductDateAdded(b).valueOf() - getProductDateAdded(a).valueOf();
+
+
 app.get('/products', (req, res) => {
-  res.send(products);
+  const { page, brand, type } = req.query;
+  const offset = (page - 1) * 10;
+  const filteredResponse = products.filter(product => {
+    if (brand && product.brand !== brand) return false;
+    if (type && product.type !== type) return false;
+    return true;
+  }).sort(sortByDateFunction).slice(offset, offset + 10)
+  res.send(filteredResponse);
 });
 
 app.get('/products/:id', (req, res) => {

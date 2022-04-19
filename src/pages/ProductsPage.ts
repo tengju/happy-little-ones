@@ -1,16 +1,21 @@
-import { html, css, LitElement } from 'lit';
+import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { sortByDateFunction } from '../helpers/product.helper.js';
 import { IProduct } from '../interfaces/IProduct.js';
 import '../components/ProductTile.js';
 import '../layouts/DefaultLayout.js';
 import { getAllProducts } from '../api/products.api.js';
+import { StoreElement } from '../StoreElement.js';
+import { numberToEuro } from '../helpers/number.helper.js';
 
 @customElement('products-page')
-export class ProductsPage extends LitElement {
+export class ProductsPage extends StoreElement {
   @property({ type: Array }) products: IProduct[] = [];
 
   @property({ type: Boolean }) errored = false;
+
+  @property({ type: Number }) page = 1;
+
+  @property({ type: Boolean }) lastPage = false;
 
   static styles = css`
     main {
@@ -42,6 +47,30 @@ export class ProductsPage extends LitElement {
     product-tile {
       display: flex;
     }
+
+    .load-more-button {
+      border: none;
+      padding: 0.25rem 1rem;
+      background-color: #005588;
+      color: white;
+      font-size: 2rem;
+      min-width: 300px;
+      margin: 0 auto;
+      cursor: pointer;
+    }
+    .no-pagination-text {
+      padding-top: 2rem;
+      font-size: 2rem;
+      margin: 0 auto;
+    }
+    .enticing-ad {
+      width: 100%;
+      padding: 0.25rem 0.75rem;
+      background-color: #005588;
+      color: white;
+      font-size: 1.5rem;
+      text-align: center;
+    }
   `;
 
   constructor() {
@@ -49,16 +78,31 @@ export class ProductsPage extends LitElement {
     this.getData();
   }
 
-  async getData() {
+  async getData(initial = true) {
+    if (initial) {
+      this.products = [];
+      this.page = 1;
+      this.lastPage = false;
+    }
     this.errored = false;
     try {
-      const { body }: any = await getAllProducts();
-      // in an ideal situation I would sort this in the backend
-      this.products = body.sort(sortByDateFunction);
+      const { body }: any = await getAllProducts({
+        page: String(this.page),
+        type: this.filters.type,
+        brand: this.filters.brand,
+      });
+
+      if (body.length < 10) this.lastPage = true;
+      this.products = [...this.products, ...body];
     } catch (error) {
       this.errored = true;
       this.products = [];
     }
+  }
+
+  loadNextPage() {
+    this.page += 1;
+    this.getData(false);
   }
 
   getErrorTemplate() {
@@ -76,15 +120,27 @@ export class ProductsPage extends LitElement {
       <default-layout>
         <main>
           <div class="title-container">
-            <span>Products</span> <span>${this.products.length} products</span>
+            <span>Products</span>
+            <span>${this.products.length} products</span>
           </div>
           ${this.getErrorTemplate()} ${this.getNoResultTemplate()}
           <div class="product-list">
+            <div class="enticing-ad">
+              SPECIAL: Free shipping for orders above ${numberToEuro(50)}
+            </div>
             ${this.products.map(
               product =>
                 html` <product-tile .product=${product}></product-tile> `
             )}
           </div>
+          ${this.lastPage
+            ? html`<span class="no-pagination-text">No more products</span>`
+            : html`'<button
+                  class="load-more-button"
+                  @click="${this.loadNextPage}"
+                >
+                  Load more...
+                </button>`}
         </main>
       </default-layout>
     `;

@@ -1,11 +1,10 @@
 import { css } from 'lit';
 import { LionSelect } from '@lion/select';
+import { customElement } from 'lit-element';
 
-// Using the older version of LionSelect because v0.16 has a bug where it has errors with validation imports
+@customElement('filter-select')
 export class FilterSelect extends LionSelect {
   static get styles() {
     return [...super.styles, css``];
   }
 }
-
-customElements.define('home-page', FilterSelect);

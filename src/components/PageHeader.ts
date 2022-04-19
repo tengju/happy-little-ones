@@ -39,16 +39,22 @@ export class PageHeader extends StoreElement {
       background-color: #fff;
       z-index: 1;
       overflow: hidden;
-      transition-duration: 0.3s;
-      height: 0;
+      display: none;
+      padding: 1rem;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .filter-bar.active {
-      height: 100%;
+      display: block;
     }
 
     .filter-button {
       width: 100%;
+    }
+
+    filter-select,
+    .filter-button {
+      margin-top: 1rem;
     }
 
     .header-icon {
@@ -80,12 +86,14 @@ export class PageHeader extends StoreElement {
   }
 
   #applyFilter() {
-    console.log('applyFilter', this.filterBarOpened);
+    changeView({ path: '/' });
     this.filterBarOpened = false;
   }
 
-  #getOptions = (option: string) =>
-    html` <option value="${option}">${option}</option>`;
+  #getOptions = (key: string, option: string) =>
+    html` <option value="${option}" .selected=${this.filters[key] === option}>
+      ${option}
+    </option>`;
 
   render() {
     return html`
@@ -114,16 +122,30 @@ export class PageHeader extends StoreElement {
           </span>
         </span>
         <div class="filter-bar ${this.filterBarOpened ? 'active' : ''}">
-          <filter-select>
+          <filter-select
+            label="Brand"
+            .value="${this.filters.brand}"
+            @user-input-changed="${(a: any) =>
+              this.changeFilter('brand', a.target.value)}"
+          >
             <select slot="input">
-              <option value="">None</option>
-              ${getAllBrands().map(this.#getOptions)}
+              <option .selected=${this.filters.brand === ''} value="">
+                None
+              </option>
+              ${getAllBrands().map(option => this.#getOptions('brand', option))}
             </select>
           </filter-select>
-          <filter-select>
+          <filter-select
+            label="Type"
+            .value="${this.filters.type}"
+            @user-input-changed="${(a: any) =>
+              this.changeFilter('type', a.target.value)}"
+          >
             <select slot="input">
-              <option value="">None</option>
-              ${getAllTypes().map(this.#getOptions)}
+              <option .selected=${this.filters.type === ''} value="">
+                None
+              </option>
+              ${getAllTypes().map(option => this.#getOptions('type', option))}
             </select>
           </filter-select>
           <button class="filter-button" @click=${this.#applyFilter}>

@@ -10,12 +10,11 @@ export class DetailTable extends LitElement {
   static styles = css`
     tr > td:first-child {
       font-weight: bold;
-      min-width: 20vw;
+      padding-right: 2rem;
     }
 
     td {
       border-bottom: 1px solid #ccc;
-      margin-right: -0.5rem;
     }
 
     .label {

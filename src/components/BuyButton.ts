@@ -16,7 +16,9 @@ export class BuyButton extends LitElement {
       font-size: 1.2rem;
       cursor: pointer;
       display: flex;
+      justify-content: center;
       transition: ease-in-out 0.2s;
+      width: 100%;
     }
 
     button:hover {
@@ -35,7 +37,7 @@ export class BuyButton extends LitElement {
     return html`
       <button>
         <!-- <lion-icon icon-id="lion:store:basketPlus"></lion-icon> -->
-        Add to basket
+        Add to shopping cart
       </button>
     `;
   }

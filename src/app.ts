@@ -1,12 +1,17 @@
 import { SimplrRoute, SimplrRouter } from '@simplr-wc/router';
 import './components/IconManager.js';
-import './components/PageHeader.js';
+import './layouts/DefaultLayout.js';
 
 export const routes: SimplrRoute[] = [
   {
     path: '',
     component: 'products-page',
     import: () => import('./pages/ProductsPage.js'),
+  },
+  {
+    path: '/shopping-cart',
+    component: 'shopping-cart-page',
+    import: () => import('./pages/ShoppingCartPage.js'),
   },
   {
     path: '/products/:id',

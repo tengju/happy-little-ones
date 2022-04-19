@@ -1,16 +1,20 @@
-import { LitElement, html, css } from 'lit';
+/* eslint-disable lit-a11y/click-events-have-key-events */
+import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { changeView, getCurrentView } from '@simplr-wc/router';
 import { ifDefined } from 'lit/directives/if-defined.js';
 import { IProduct } from '../interfaces/IProduct.js';
 import { getProductById } from '../api/products.api.js';
+import { StoreElement } from '../StoreElement.js';
+
 import '../components/BuyButton.js';
 import '../components/CustomChip.js';
 import '../components/StockChip.js';
 import '../components/DetailTable.js';
+import '../layouts/DefaultLayout.js';
 
 @customElement('single-product-page')
-export class SingleProductPage extends LitElement {
+export class SingleProductPage extends StoreElement {
   @property({ type: Object }) product: IProduct | null = null;
 
   @property({ type: Boolean }) errored: boolean = false;
@@ -69,8 +73,18 @@ export class SingleProductPage extends LitElement {
     .image-container {
       position: relative;
     }
+
     .label {
       font-size: 1.2rem;
+    }
+
+    .mobile-buy-footer {
+      position: sticky;
+      left: 0;
+      bottom: 0;
+      padding: 0.5rem;
+      background-color: white;
+      box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
     }
 
     @media only screen and (min-width: 768px) {
@@ -112,6 +126,10 @@ export class SingleProductPage extends LitElement {
         right: 0;
         padding: 1.5rem 1.5rem;
         max-width: 100%;
+      }
+
+      .mobile-buy-footer {
+        display: none;
       }
     }
   `;
@@ -170,49 +188,63 @@ export class SingleProductPage extends LitElement {
       }
       this.product = body as IProduct;
     } catch (error) {
-      console.log(error);
       changeView({ path: '/not-found' });
     }
   }
 
+  addProductToCart() {
+    super.addProductToCart(this.product, this.activeSize);
+  }
+
   render() {
     return html`
-      <main>
-        <div class="image-container">
-          <img
-            src="${ifDefined(this.product?.image)}"
-            alt="${ifDefined(this.product?.name)}"
-          />
-          <div class="custom-chip-container">
-            <custom-chip
-              backgroundColor="#76b8ff"
-              color="#fff"
-            >
-              ${this.product?.brand}
+      <default-layout>
+        <main>
+          <div class="image-container">
+            <img
+              src="${ifDefined(this.product?.image)}"
+              alt="${ifDefined(this.product?.name)}"
+            />
+            <div class="custom-chip-container">
+              <custom-chip
+                backgroundColor="#76b8ff"
+                color="#fff"
+              >
+                ${this.product?.brand}
+              </custom-chip>
+              ${this.#getMaterialChip()}
+            </div>
             </custom-chip>
-            ${this.#getMaterialChip()}
           </div>
-          </custom-chip>
-        </div>
-        <section>
-          <h1>
-          ${this.product?.name}</h1>
-          <stock-chip .stock="${this.product?.stock || 0}"></stock-chip>
-          <div class="price">
-            <span>${this.product?.Price}</span>
-          </div>
-          <div class="buy-button-container">
-            <buy-button .stock="${this.product?.stock || 0}"></buy-button>
-          </div>
-          ${this.#getAvailableSizesChipSelection()}
+          <section>
+            <h1>
+            ${this.product?.name}</h1>
+            <stock-chip .stock="${this.product?.stock || 0}"></stock-chip>
+            <div class="price">
+              <span>${this.product?.Price}</span>
+            </div>
+            <div class="buy-button-container">
+              <buy-button 
+              .stock="${this.product?.stock || 0}"
+              @click=${this.addProductToCart}
+              ></buy-button>
+            </div>
+            ${this.#getAvailableSizesChipSelection()}
 
 
-          <h2 class="label">Description:</h2>
-          <p class="description">${this.product?.description}</p>
+            <h2 class="label">Description:</h2>
+            <p class="description">${this.product?.description}</p>
 
-          <detail-table .product=${this.product}> </detail-table>
-        </section>
-      </main>
+            <detail-table .product=${this.product}> </detail-table>
+          </section>
+        </main>
+        <footer class="mobile-buy-footer" >
+          <buy-button 
+            .stock="${this.product?.stock || 0}"
+            @click=${this.addProductToCart}
+          ></buy-button>
+        </footer>
+      </default-layout>
     `;
   }
 }

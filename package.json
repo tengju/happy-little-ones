@@ -24,8 +24,7 @@
     "@lion/select": "^0.15.0",
     "@simplr-wc/router": "^7.0.0-rc19",
     "lit": "^2.0.2",
-    "lit-element": "^3.2.0",
-    "lit-element-state": "^1.7.0"
+    "lit-element": "^3.2.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.16.4",

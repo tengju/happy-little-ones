@@ -1,14 +1,17 @@
-import { LitElement, html, css } from 'lit';
+import { changeView } from '@simplr-wc/router';
+import { html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { getAllBrands, getAllTypes } from '../helpers/product.helper';
+import { StoreElement } from '../StoreElement.js';
 import './FilterSelect.js';
+import './CustomChip.js';
 
 // Image created on https://hatchful.shopify.com/
 const logo = new URL('../../../assets/logo_transparent.png', import.meta.url)
   .href;
 
 @customElement('page-header')
-export class PageHeader extends LitElement {
+export class PageHeader extends StoreElement {
   @property({ type: Boolean }) filterBarOpened = false;
 
   static styles = css`
@@ -56,6 +59,20 @@ export class PageHeader extends LitElement {
     .cursor-pointer {
       cursor: pointer;
     }
+    .relative {
+      position: relative;
+    }
+
+    .number-chip {
+      position: absolute;
+      top: -1rem;
+      right: -0.5rem;
+      padding: 0.25em;
+      border-radius: 1rem;
+      background: #ff5a5f;
+      color: white;
+      font-size: 0.7rem;
+    }
   `;
 
   #toggleFilterBar() {
@@ -87,10 +104,14 @@ export class PageHeader extends LitElement {
             style=" margin-right: 1rem;"
             @click="${this.#toggleFilterBar}"
           ></lion-icon>
-          <lion-icon
-            icon-id="lion:store:basket"
-            class="header-icon cursor-pointer"
-          ></lion-icon>
+          <span class="relative">
+            <lion-icon
+              icon-id="lion:store:basket"
+              class="header-icon cursor-pointer"
+              @click="${() => changeView({ path: '/shopping-cart' })}"
+            ></lion-icon>
+            <span class="number-chip"> ${this.totalItems} </span>
+          </span>
         </span>
         <div class="filter-bar ${this.filterBarOpened ? 'active' : ''}">
           <filter-select>

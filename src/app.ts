@@ -1,6 +1,5 @@
 import { SimplrRoute, SimplrRouter } from '@simplr-wc/router';
 import './components/IconManager.js';
-import './layouts/DefaultLayout.js';
 
 export const routes: SimplrRoute[] = [
   {

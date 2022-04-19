@@ -33,7 +33,9 @@ export class StoreElement extends LitElement {
     this.shoppingCart = JSON.parse(
       localStorage.getItem('shoppingCart') || '{}'
     );
-    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.filters = JSON.parse(
+      localStorage.getItem('filters') || '{"brand": "","type": ""}'
+    );
     this.localUpdateValue = StoreElement.updateValue;
   }
 

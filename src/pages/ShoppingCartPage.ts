@@ -1,7 +1,9 @@
 import { css, html } from 'lit';
 import { customElement } from 'lit/decorators.js';
+import { changeView } from '@simplr-wc/router';
 import { StoreElement } from '../StoreElement.js';
 import { numberToEuro } from '../helpers/number.helper.js';
+import { IShoppingItem } from '../interfaces/IShoppingItem.js';
 import '../layouts/DefaultLayout.js';
 
 @customElement('shopping-cart-page')
@@ -34,6 +36,20 @@ export class ShoppingCartPage extends StoreElement {
       cursor: pointer;
     }
   `;
+
+  constructor() {
+    super();
+    if (Object.keys(this.shoppingCart).length < 1) {
+      changeView({ path: '/' });
+    }
+  }
+
+  decrementCartItem(item: IShoppingItem) {
+    super.decrementCartItem(item);
+    if (Object.keys(this.shoppingCart).length < 1) {
+      changeView({ path: '/' });
+    }
+  }
 
   render() {
     return html`

@@ -2,7 +2,7 @@ export default tag =>
     tag`<?xml version="1.0" encoding="UTF-8" standalone="no"?>
     <svg width="20px" height="19px" viewBox="0 0 20 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <!-- Generator: Sketch 3.8.1 (29687) - http://www.bohemiancoding.com/sketch -->
-        <title>shopping_cart_plus_round [#1130]</title>
+        <title> Add to shopping cart </title>
         <desc>Created with Sketch.</desc>
         <defs></defs>
         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

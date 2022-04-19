@@ -6,11 +6,19 @@ import { IShoppingItem } from './interfaces/IShoppingItem.js';
 export class StoreElement extends LitElement {
   constructor() {
     super();
-    this.shoppingCart = JSON.parse(
-      localStorage.getItem('shoppingCart') || '{}'
-    );
-    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.syncLatestChanges();
+    // Intentionally not clearing interval since i alwyas want to sync latest changes
+    setInterval(() => {
+      if (this.localUpdateValue !== StoreElement.updateValue) {
+        this.syncLatestChanges();
+      }
+    }, 200);
   }
+
+  static updateValue = 0;
+
+  @property({ type: Number })
+  localUpdateValue = 0;
 
   @property({ type: String })
   shoppingCart: Record<string, IShoppingItem> = {};
@@ -21,8 +29,22 @@ export class StoreElement extends LitElement {
     type: '',
   };
 
+  syncLatestChanges() {
+    this.shoppingCart = JSON.parse(
+      localStorage.getItem('shoppingCart') || '{}'
+    );
+    this.filters = JSON.parse(localStorage.getItem('filters') || '{}');
+    this.localUpdateValue = StoreElement.updateValue;
+  }
+
   updated(changedProperties: any) {
     if (changedProperties.has('shoppingCart')) {
+      if (
+        JSON.stringify(this.shoppingCart) !==
+        localStorage.getItem('shoppingCart')
+      ) {
+        StoreElement.updateValue += 1;
+      }
       localStorage.setItem('shoppingCart', JSON.stringify(this.shoppingCart));
     }
     if (changedProperties.has('filters')) {
